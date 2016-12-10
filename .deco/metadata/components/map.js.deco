@@ -1,0 +1,35 @@
+{
+	"liveValues": [
+		{
+			"range": {
+				"from": {
+					"line": 52,
+					"ch": 19
+				},
+				"to": {
+					"line": 52,
+					"ch": 22
+				}
+			},
+			"type": "number",
+			"name": "Width",
+			"max": 600,
+			"group": "MAP VIEW"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 59,
+					"ch": 29
+				},
+				"to": {
+					"line": 59,
+					"ch": 33
+				}
+			},
+			"type": "boolean",
+			"name": "ShowUserLocation",
+			"group": "MAP VIEW"
+		}
+	]
+}
