@@ -1,0 +1,1 @@
+export const REGION_CHANGE = 'REGION_CHANGE';

@@ -5,8 +5,9 @@ import {
   TextInput, 
   View,
   Button,
-  Picker
 } from 'react-native'
+
+import CheckBox from 'react-native-checkbox';
 
 export default class Input extends Component {
   constructor(props) {
@@ -21,6 +22,18 @@ export default class Input extends Component {
   render() {
     return (
         <View>
+          <CheckBox
+              checkboxStyle={{height: 15, width: 15}}
+              label='I am looking for this item'
+              checked={this.state.selectedItem.lost}
+              onChange={(checked) => this.updateField('lost', !this.state.selectedItem.lost)}
+          />
+          <CheckBox
+                checkboxStyle={{height: 15, width: 15}}
+                label='I found this item'
+                checked={!this.state.selectedItem.lost}
+                onChange={(checked) => this.updateField('lost', !this.state.selectedItem.lost)}
+            />
           <TextInput
               style={{height: 40, width: 200, padding: 10}}
               maxLength={20}
@@ -39,7 +52,9 @@ export default class Input extends Component {
               style={{height: 40, width: 300, padding: 10}}
               maxLength={100}
               blurOnSubmit={true}
-              placeholder="How do finders contact you?" value={this.state.selectedItem.contact}
+              placeholder={this.state.selectedItem.lost ? 
+                  "How can the finders contact you?" : "How can the owner contact you?" } 
+              value={this.state.selectedItem.contact}
               onChangeText={(contact) => this.updateField('contact', contact)}
             />
 
