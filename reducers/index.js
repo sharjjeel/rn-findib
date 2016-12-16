@@ -1,5 +1,5 @@
-import region from './region';
+import reducer from './reducers';
 
 export {
-  region
+  reducer
 };

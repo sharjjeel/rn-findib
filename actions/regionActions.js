@@ -1,7 +1,8 @@
 import * as types from './actionTypes';
 
-export function regionChange() {
+export function regionChange(region) {
   return {
+    region,
     type: types.REGION_CHANGE
   };
 }

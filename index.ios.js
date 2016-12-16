@@ -6,13 +6,10 @@
 
 import React, { Component } from 'react';
 import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
+  AppRegistry
 } from 'react-native';
 
-import App from './App';
+import App from './app/App';
 class AwesomeProject extends Component {
   render() {
     return <App />;
