@@ -23,6 +23,7 @@ export default class Map extends Component {
   }
 
   render() {
+    const {selectedItem} = this.props;
     return (
         <MapView
           style={{
@@ -39,7 +40,7 @@ export default class Map extends Component {
         <MapView.Marker draggable 
           coordinate={{latitude: this.props.region.latitude, 
                        longitude: this.props.region.longitude}}
-          title="Item"
+          title={selectedItem.title}
           />
        </MapView>
     );

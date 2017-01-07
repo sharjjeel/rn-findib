@@ -9,6 +9,8 @@ import {
 
 import CheckBox from 'react-native-checkbox';
 
+import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
+
 export default class Input extends Component {
   constructor(props) {
     super(props);
@@ -17,23 +19,29 @@ export default class Input extends Component {
     this.props.onChange(field, input);
   }
   render() {
-    const { selectedItem, onChange, onSubmit } = this.props;
-    console.log("ajsndks");
+    const { isSubmitting, region, selectedItem, onChange, onSubmit } = this.props;
     console.log(this.props);
     return (
         <View>
-          <CheckBox
-              checkboxStyle={{height: 15, width: 15}}
-              label='I am looking for this item'
-              checked={selectedItem.lost}
-              onChange={(checked) => this.updateField('lost', true)}
-          />
-          <CheckBox
-                checkboxStyle={{height: 15, width: 15}}
-                label='I found this item'
-                checked={!selectedItem.lost}
-                onChange={(checked) => this.updateField('lost', false)}
-            />
+          <View style={{height: 20}}></View>
+          <View style={{ width: 300, height: 20 }}>
+            <MenuContext>
+              <Menu onSelect={(value) => this.updateField('lost', value)}>
+                <MenuTrigger>
+                    <Text style={{fontWeight : 'bold'}}>{this.props.selectedItem.lost === undefined ? '-- Choose --' : (this.props.selectedItem.lost ? 'Lost' : 'Found') + ' Item'}</Text>
+                </MenuTrigger>
+                <MenuOptions>
+                  <MenuOption value={false}>
+                    <Text>This item was found</Text>
+                  </MenuOption>
+                  <MenuOption value={true}>
+                    <Text>This item was lost</Text>
+                  </MenuOption>
+                </MenuOptions>
+              </Menu>
+            </MenuContext>
+          </View>
+          <View style={{height: 20}}></View>
           <TextInput
               style={{height: 40, width: 200, padding: 10}}
               maxLength={20}
@@ -60,13 +68,15 @@ export default class Input extends Component {
 
          <View style={{backgroundColor:'red'}}>
           <Button
-              onPress={() => onSubmit()}
+              onPress={() => onSubmit(selectedItem, region)}
               title="Submit"
               color="white"
               accessibilityLabel="Submit item"
               disabled={!selectedItem.contact
                         || !selectedItem.description
-                        || !selectedItem.title}
+                        || !selectedItem.title
+                        || selectedItem.lost === undefined
+                        || isSubmitting}
             />
          </View>
       </View>

@@ -3,7 +3,8 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  ScrollView
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -12,6 +13,7 @@ import {bindActionCreators} from 'redux';
 
 import Map from '../components/map';
 import Input from '../components/input';
+import GetItemsButton from '../components/getItemsButton'
 
 import * as formActions from '../actions/formActions';
 import * as regionActions from '../actions/regionActions';
@@ -25,9 +27,9 @@ class Findib extends Component {
   }
 
   render() {
-    const { region, selectedItem, actions, state } = this.props;
+    const { region, selectedItem, actions, state, isSubmitting, isRefreshing } = this.props;
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Text style={styles.welcome}>
           Welcome to Findib!
         </Text>
@@ -35,14 +37,20 @@ class Findib extends Component {
           Drop a marker to list a lost or found item!
           Please note that the item will only be listed for 7 days.
         </Text>
+        <View>
+          <GetItemsButton></GetItemsButton>
+        </View>
+        <View style={{height: 20}}></View>
         <View style={styles.map}>
           <Map selectedItem={selectedItem} region={region} onRegionChange={actions.regionChange}/>
         </View>
 
         <View style={styles.input}>
-          <Input selectedItem={selectedItem} onChange={actions.formChange} onSubmit={actions.submit}/>
+          <Input isSubmitting={isSubmitting} region={region} 
+            selectedItem={selectedItem} onChange={actions.formChange} 
+            onSubmit={actions.submitItem}/>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -50,7 +58,9 @@ class Findib extends Component {
 export default connect(state => ({
     state: state,
     region: state.reducer.region, 
-    selectedItem: state.reducer.selectedItem
+    selectedItem: state.reducer.selectedItem,
+    isSubmitting: state.reducer.isSubmitting,
+    isRefreshing: state.reducer.isRefreshing
     }),
   (dispatch) => ({
     actions: bindActionCreators(_.merge(regionActions,formActions, submitActions) , dispatch)
@@ -62,6 +72,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F5FCFF',
     padding: 25
+  },
+  getItems: {
+    alignItems: 'center'
   },
   map: {
     alignItems: 'center'
