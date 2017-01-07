@@ -5,53 +5,78 @@ import {
   TextInput, 
   View,
   Button,
-  Picker
 } from 'react-native'
+
+import CheckBox from 'react-native-checkbox';
+
+import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 
 export default class Input extends Component {
   constructor(props) {
     super(props);
-    this.state = {selectedItem: {}};
   }
   updateField(field, input) {
-    let newState = this.state;
-    newState.selectedItem[field] = input;
-    this.setState(newState);
+    this.props.onChange(field, input);
   }
   render() {
+    const { isSubmitting, region, selectedItem, onChange, onSubmit } = this.props;
+    console.log(this.props);
     return (
         <View>
+          <View style={{height: 20}}></View>
+          <View style={{ width: 300, height: 20 }}>
+            <MenuContext>
+              <Menu onSelect={(value) => this.updateField('lost', value)}>
+                <MenuTrigger>
+                    <Text style={{fontWeight : 'bold'}}>{this.props.selectedItem.lost === undefined ? '-- Choose --' : (this.props.selectedItem.lost ? 'Lost' : 'Found') + ' Item'}</Text>
+                </MenuTrigger>
+                <MenuOptions>
+                  <MenuOption value={false}>
+                    <Text>This item was found</Text>
+                  </MenuOption>
+                  <MenuOption value={true}>
+                    <Text>This item was lost</Text>
+                  </MenuOption>
+                </MenuOptions>
+              </Menu>
+            </MenuContext>
+          </View>
+          <View style={{height: 20}}></View>
           <TextInput
               style={{height: 40, width: 200, padding: 10}}
               maxLength={20}
               blurOnSubmit={true}
-              placeholder="What is it?" value={this.state.selectedItem.title}
+              placeholder="What is it?" value={selectedItem.title}
               onChangeText={(title) => this.updateField('title', title)}
             />
           <TextInput
               style={{height: 40, width: 300, padding: 10}}
               maxLength={200}
               blurOnSubmit={true}
-              placeholder="Can you describe the item?" value={this.state.selectedItem.description}
+              placeholder="Can you describe the item?" value={selectedItem.description}
               onChangeText={(description) => this.updateField('description', description)}
             />
           <TextInput
               style={{height: 40, width: 300, padding: 10}}
               maxLength={100}
               blurOnSubmit={true}
-              placeholder="How do finders contact you?" value={this.state.selectedItem.contact}
+              placeholder={selectedItem.lost ? 
+                  "How can the finders contact you?" : "How can the owner contact you?" } 
+              value={selectedItem.contact}
               onChangeText={(contact) => this.updateField('contact', contact)}
             />
 
          <View style={{backgroundColor:'red'}}>
           <Button
-              onPress={() => this.setState({selectedItem: {}})}
+              onPress={() => onSubmit(selectedItem, region)}
               title="Submit"
               color="white"
               accessibilityLabel="Submit item"
-              disabled={!this.state.selectedItem.contact
-                        || !this.state.selectedItem.description
-                        || !this.state.selectedItem.title}
+              disabled={!selectedItem.contact
+                        || !selectedItem.description
+                        || !selectedItem.title
+                        || selectedItem.lost === undefined
+                        || isSubmitting}
             />
          </View>
       </View>

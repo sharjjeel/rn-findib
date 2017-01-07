@@ -12,40 +12,18 @@ export default class Map extends Component {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const initialPosition = position;
-        this.state = {region: {latitude: initialPosition.coords.latitude, 
+        this.props.onRegionChange({latitude: initialPosition.coords.latitude, 
                                 longitude: initialPosition.coords.longitude,
                                latitudeDelta: 0.0922,
-                               longitudeDelta: 0.0421}};
+                               longitudeDelta: 0.0421});
       },
       (error) => alert(JSON.stringify(error)),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
     );
-    this.state = {region: {latitude: 0, 
-                           longitude: 0, 
-                           latitudeDelta: 0.0922, 
-                           longitudeDelta: 0.0421}};
-  }
- watchID: ?number = null;
-
-  componentDidMount() {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const initialPosition = position;
-        this.setState({region: {latitude: initialPosition.coords.latitude, 
-                                longitude: initialPosition.coords.longitude,
-                               latitudeDelta: 0.0922,
-                               longitudeDelta: 0.0421}});
-      },
-      (error) => alert(JSON.stringify(error)),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-    );
-  }
-
-  componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchID);
   }
 
   render() {
+    const {selectedItem} = this.props;
     return (
         <MapView
           style={{
@@ -54,15 +32,15 @@ export default class Map extends Component {
             justifyContent: 'center',
             alignItems: 'center'
           }}
-          region={this.state.region}
-          onRegionChange={(region) => {this.setState({region: region})}}
+          region={this.props.region}
+          onRegionChange={(region) => {this.props.onRegionChange(region)}}
           onRegionChangeComplete={() => {}}
           showsUserLocation={true}
         >
         <MapView.Marker draggable 
-          coordinate={{latitude: this.state.region.latitude, 
-                       longitude: this.state.region.longitude}}
-          title="Item"
+          coordinate={{latitude: this.props.region.latitude, 
+                       longitude: this.props.region.longitude}}
+          title={selectedItem.title}
           />
        </MapView>
     );
