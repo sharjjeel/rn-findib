@@ -12,13 +12,15 @@ export default class GetItemsButton extends Component {
   }
 
   render() {
+    const {isRefreshing, onClick, region} = this.props;
     return (
       <View style={{backgroundColor:'blue'}}>
         <Button
-            onPress={() => alert("NO BACKEND")}
+            onPress={() => onClick(region)}
             title="Refresh Map"
             color="white"
             accessibilityLabel="Submit item"
+            disabled={isRefreshing}
           />
       </View>
     );

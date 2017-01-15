@@ -1,15 +1,15 @@
 import * as types from './actionTypes';
 
-export function submit(item) {
+function submit(item) {
   return {
     type: types.SUBMIT,
     item
   };
 }
 
-export function submited(item) {
+function submitted(item) {
   return {
-    type: types.SUBMITED,
+    type: types.SUBMITTED,
     item
   };
 }
@@ -25,14 +25,14 @@ export function submitItem(item, region) {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            name: item.title,
+            title: item.title,
             description: item.description,
             longitude: region.longitude,
             latitude: region.latitude,
             contact: item.contact,
             lost: item.lost
           })
-        }).then(response => response.json())
-      .then(json => dispatch(submited(json)))
+        }).then(response => response._bodyText)
+      .then(json => dispatch(submitted(JSON.parse(json))))
   }
 }

@@ -7,12 +7,6 @@ export function refreshMap(region) {
   };
 }
 
-export function refreshingMap() {
-  return {
-    type: types.REFRESHING_MAP
-  };
-}
-
 export function refreshedMap(items) {
   return {
     items,
@@ -20,11 +14,14 @@ export function refreshedMap(items) {
   };
 }
 
-function fetchItems(region) {
+export function fetchItems(region) {
   return dispatch => {
-    dispatch(refreshMap(subreddit))
-    return fetch(`http://localhost:8080/item/`)
-      .then(response => response.json())
-      .then(json => dispatch(refreshedMap(json)))
+    dispatch(refreshMap(region))
+    const url = `http://localhost:8080/item/items?longitude=${region.longitude}` 
+                  + `&latitude=${region.latitude}`
+                  + `&radius=${region.latitudeDelta}`;
+    return fetch(url)
+      .then(response => response._bodyText)
+      .then(json => dispatch(refreshedMap(JSON.parse(json))))
   }
 }
