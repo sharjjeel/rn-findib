@@ -38,12 +38,13 @@ class Findib extends Component {
           Drop a marker to list a lost or found item!
           Please note that the item will only be listed for 7 days.
         </Text>
+        <View style={{height: 10}}></View>
         <View>
           <GetItemsButton isRefreshing={isRefreshing} 
             onClick={actions.fetchItems}
             region={region}/>
         </View>
-        <View style={{height: 20}}></View>
+        <View style={{height: 10}}></View>
         <View style={styles.map}>
           <Map itemsInRegion={itemsInRegion} selectedItem={selectedItem} region={region} onRegionChange={actions.regionChange}/>
         </View>
