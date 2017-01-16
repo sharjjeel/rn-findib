@@ -20,14 +20,13 @@ export default class Input extends Component {
   }
   render() {
     const { isSubmitting, region, selectedItem, onChange, onSubmit } = this.props;
-    console.log(this.props);
     return (
         <View>
           <View style={{height: 20}}></View>
           <View style={{ width: 300, height: 20 }}>
             <MenuContext>
               <Menu onSelect={(value) => this.updateField('lost', value)}>
-                <MenuTrigger>
+                <MenuTrigger disabled={isSubmitting}>
                     <Text style={{fontWeight : 'bold'}}>{this.props.selectedItem.lost === undefined ? '-- Choose --' : (this.props.selectedItem.lost ? 'Lost' : 'Found') + ' Item'}</Text>
                 </MenuTrigger>
                 <MenuOptions>
@@ -46,6 +45,7 @@ export default class Input extends Component {
               style={{height: 40, width: 200, padding: 10}}
               maxLength={20}
               blurOnSubmit={true}
+              editable={!isSubmitting}
               placeholder="What is it?" value={selectedItem.title}
               onChangeText={(title) => this.updateField('title', title)}
             />
@@ -53,6 +53,7 @@ export default class Input extends Component {
               style={{height: 40, width: 300, padding: 10}}
               maxLength={200}
               blurOnSubmit={true}
+              editable={!isSubmitting}
               placeholder="Can you describe the item?" value={selectedItem.description}
               onChangeText={(description) => this.updateField('description', description)}
             />
@@ -60,6 +61,7 @@ export default class Input extends Component {
               style={{height: 40, width: 300, padding: 10}}
               maxLength={100}
               blurOnSubmit={true}
+              editable={!isSubmitting}
               placeholder={selectedItem.lost ? 
                   "How can the finders contact you?" : "How can the owner contact you?" } 
               value={selectedItem.contact}

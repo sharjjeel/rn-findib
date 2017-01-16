@@ -23,7 +23,7 @@ export default class Map extends Component {
   }
 
   render() {
-    const {selectedItem} = this.props;
+    const {region, selectedItem, itemsInRegion, onRegionChange} = this.props;
     return (
         <MapView
           style={{
@@ -32,16 +32,29 @@ export default class Map extends Component {
             justifyContent: 'center',
             alignItems: 'center'
           }}
-          region={this.props.region}
-          onRegionChange={(region) => {this.props.onRegionChange(region)}}
+          region={region}
+          onRegionChange={(newRegion) => {onRegionChange(newRegion)}}
           onRegionChangeComplete={() => {}}
           showsUserLocation={true}
         >
-        <MapView.Marker draggable 
-          coordinate={{latitude: this.props.region.latitude, 
-                       longitude: this.props.region.longitude}}
-          title={selectedItem.title}
-          />
+          <MapView.Marker 
+            coordinate={{latitude: region.latitude, 
+                         longitude: region.longitude}}
+            title={selectedItem.title}
+            key={"new"}
+            pinColor={selectedItem.lost === undefined ? '#000000' :
+              selectedItem.lost ? '#ff0000' : '#00bfff'}
+            />
+            {itemsInRegion.map(marker => (
+                <MapView.Marker
+                  key={marker.id}
+                  coordinate={{latitude: marker.latitude, 
+                               longitude: marker.longitude}}
+                  title={marker.title}
+                  description={"Description: " + marker.description}
+                  pinColor={marker.lost ? '#ff0000' : '#00bfff'}
+                />
+              ))}
        </MapView>
     );
   }

@@ -18,6 +18,7 @@ import GetItemsButton from '../components/getItemsButton'
 import * as formActions from '../actions/formActions';
 import * as regionActions from '../actions/regionActions';
 import * as submitActions from '../actions/submitActions';
+import * as refreshActions from '../actions/refreshActions';
 
 import _ from 'lodash';
 
@@ -27,7 +28,7 @@ class Findib extends Component {
   }
 
   render() {
-    const { region, selectedItem, actions, state, isSubmitting, isRefreshing } = this.props;
+    const { region, selectedItem, actions, state, isSubmitting, isRefreshing, itemsInRegion} = this.props;
     return (
       <ScrollView style={styles.container}>
         <Text style={styles.welcome}>
@@ -37,12 +38,15 @@ class Findib extends Component {
           Drop a marker to list a lost or found item!
           Please note that the item will only be listed for 7 days.
         </Text>
+        <View style={{height: 10}}></View>
         <View>
-          <GetItemsButton></GetItemsButton>
+          <GetItemsButton isRefreshing={isRefreshing} 
+            onClick={actions.fetchItems}
+            region={region}/>
         </View>
-        <View style={{height: 20}}></View>
+        <View style={{height: 10}}></View>
         <View style={styles.map}>
-          <Map selectedItem={selectedItem} region={region} onRegionChange={actions.regionChange}/>
+          <Map itemsInRegion={itemsInRegion} selectedItem={selectedItem} region={region} onRegionChange={actions.regionChange}/>
         </View>
 
         <View style={styles.input}>
@@ -59,11 +63,12 @@ export default connect(state => ({
     state: state,
     region: state.reducer.region, 
     selectedItem: state.reducer.selectedItem,
+    itemsInRegion: state.reducer.itemsInRegion,
     isSubmitting: state.reducer.isSubmitting,
     isRefreshing: state.reducer.isRefreshing
     }),
   (dispatch) => ({
-    actions: bindActionCreators(_.merge(regionActions,formActions, submitActions) , dispatch)
+    actions: bindActionCreators(_.merge(regionActions, formActions, submitActions, refreshActions) , dispatch)
   })
 )(Findib);
 
