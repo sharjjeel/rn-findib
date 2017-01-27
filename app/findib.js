@@ -4,16 +4,16 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView
+  ScrollView,
+  Navigator, TouchableHighlight
 } from 'react-native';
 
 import { connect } from 'react-redux';
 
 import {bindActionCreators} from 'redux';
 
-import Map from '../components/map';
-import Input from '../components/input';
-import GetItemsButton from '../components/getItemsButton'
+import InputView from '../components/inputView';
+import CardView from '../components/cardView';
 
 import * as formActions from '../actions/formActions';
 import * as regionActions from '../actions/regionActions';
@@ -28,33 +28,25 @@ class Findib extends Component {
   }
 
   render() {
-    const { region, selectedItem, actions, state, isSubmitting, isRefreshing, itemsInRegion} = this.props;
+      const routes = [
+        {title: 'Input View', index: 0},
+        {title: 'Card View', index: 1},
+      ];
     return (
-      <ScrollView style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to Findib!
-        </Text>
-        <Text style={styles.instructions}>
-          Drop a marker to list a lost or found item!
-          Please note that the item will only be listed for 7 days.
-        </Text>
-        <View style={{height: 10}}></View>
-        <View>
-          <GetItemsButton isRefreshing={isRefreshing} 
-            onClick={actions.fetchItems}
-            region={region}/>
-        </View>
-        <View style={{height: 10}}></View>
-        <View style={styles.map}>
-          <Map itemsInRegion={itemsInRegion} selectedItem={selectedItem} region={region} onRegionChange={actions.regionChange}/>
-        </View>
-
-        <View style={styles.input}>
-          <Input isSubmitting={isSubmitting} region={region} 
-            selectedItem={selectedItem} onChange={actions.formChange} 
-            onSubmit={actions.submitItem}/>
-        </View>
-      </ScrollView>
+      <Navigator
+        initialRoute={routes[0]}
+        initialRouteStack={routes}
+        renderScene={(route, navigator) =>
+          <ScrollView>
+            {
+            route.index === 0 ?
+            <InputView style={styles} passedProps={this.props} 
+              toCardMode={() => navigator.push(routes[1])}
+            />:<CardView style={styles} toInputView={() => navigator.pop()} itemsInRegion={this.props.itemsInRegion}/>
+          }
+        </ScrollView>
+        }
+      />
     );
   }
 }

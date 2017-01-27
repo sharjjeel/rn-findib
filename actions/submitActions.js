@@ -18,7 +18,7 @@ export function submitItem(item, region) {
   return dispatch => {
     dispatch(submit(item))
     
-    return fetch('http://localhost:8080/item/', {
+    return fetch('https://vast-headland-86513.herokuapp.com/item/', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',

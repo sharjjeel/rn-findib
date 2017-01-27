@@ -17,7 +17,7 @@ export function refreshedMap(items) {
 export function fetchItems(region) {
   return dispatch => {
     dispatch(refreshMap(region))
-    const url = `http://localhost:8080/item/items?longitude=${region.longitude}` 
+    const url = `https://vast-headland-86513.herokuapp.com/item/items?longitude=${region.longitude}` 
                   + `&latitude=${region.latitude}`
                   + `&radius=${region.latitudeDelta}`;
     return fetch(url)
