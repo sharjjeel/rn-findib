@@ -28,10 +28,10 @@ export default class InputView extends Component {
           Welcome to Findib!
         </Text>
         <Text style={styles.instructions}>
-          Drop a marker to list a lost or found item!
+          Submit a lost or found item! Move the map to pick the location.
           Please note that the item will only be listed for 7 days.
         </Text>
-        <View style={{height: 10}}></View>
+        <View style={{height: 5}}></View>
         <View>
           <GetItemsButton isRefreshing={isRefreshing} 
             onClick={actions.fetchItems}
@@ -39,12 +39,15 @@ export default class InputView extends Component {
         </View>
         <View style={{height: 10}}></View>
         <View style={styles.map}>
-          <Map itemsInRegion={itemsInRegion} selectedItem={selectedItem} region={region} onRegionChange={actions.regionChange}/>
+          <Map itemsInRegion={itemsInRegion} selectedItem={selectedItem}
+            region={region} onRegionChange={actions.regionChange}
+            fetchItems={actions.fetchItems}/>
         </View>
 
         <View style={{height: 10}}></View>
-        <TouchableHighlight onPress={toCardMode} style={{backgroundColor:'white', alignItems:'center'}}>
-          <Text style={{fontSize:30}}>See in list view</Text>
+        <TouchableHighlight onPress={toCardMode} style={{backgroundColor:'white', alignItems:'center', borderColor: 'black', 
+                    borderStyle: 'solid', borderWidth: 3}}>
+          <Text style={{fontSize:25}}>See items in list view</Text>
         </TouchableHighlight>
 
         <View style={styles.input}>

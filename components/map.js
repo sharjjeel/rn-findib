@@ -14,8 +14,8 @@ export default class Map extends Component {
         const initialPosition = position;
         this.props.onRegionChange({latitude: initialPosition.coords.latitude, 
                                 longitude: initialPosition.coords.longitude,
-                               latitudeDelta: 0.0922,
-                               longitudeDelta: 0.0421});
+                               latitudeDelta: 0.0050,
+                               longitudeDelta: 0.0050});
       },
       (error) => alert(JSON.stringify(error)),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
@@ -23,7 +23,7 @@ export default class Map extends Component {
   }
 
   render() {
-    const {region, selectedItem, itemsInRegion, onRegionChange} = this.props;
+    const {region, selectedItem, itemsInRegion, onRegionChange, fetchItems} = this.props;
     return (
         <MapView
           style={{
@@ -34,7 +34,7 @@ export default class Map extends Component {
           }}
           region={region}
           onRegionChange={(newRegion) => {onRegionChange(newRegion)}}
-          onRegionChangeComplete={() => {}}
+          onRegionChangeComplete={(newRegion) => {fetchItems(newRegion)}}
           showsUserLocation={true}
         >
           <MapView.Marker 

@@ -1,4 +1,4 @@
-rootProject.name = 'AwesomeProject'
+rootProject.name = 'Findib'
 
 include ':app'
 include ':react-native-maps'

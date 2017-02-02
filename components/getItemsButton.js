@@ -14,7 +14,8 @@ export default class GetItemsButton extends Component {
   render() {
     const {isRefreshing, onClick, region} = this.props;
     return (
-      <View style={{backgroundColor:'blue'}}>
+      <View style={{backgroundColor:'blue', borderColor: 'black', 
+                    borderStyle: 'solid', borderWidth: 3}}>
         <Button
             onPress={() => onClick(region)}
             title="Refresh Map"

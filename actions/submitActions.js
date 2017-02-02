@@ -7,14 +7,15 @@ function submit(item) {
   };
 }
 
-function submitted(item) {
+function submitted(item, dropdown) {
+  dropdown.select(-1);
   return {
     type: types.SUBMITTED,
     item
   };
 }
 
-export function submitItem(item, region) {
+export function submitItem(item, region, dropdown) {
   return dispatch => {
     dispatch(submit(item))
     
@@ -33,6 +34,6 @@ export function submitItem(item, region) {
             lost: item.lost
           })
         }).then(response => response._bodyText)
-      .then(json => dispatch(submitted(JSON.parse(json))))
+      .then(json => dispatch(submitted(JSON.parse(json), dropdown)))
   }
 }

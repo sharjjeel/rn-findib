@@ -5,11 +5,14 @@ import {
   TextInput, 
   View,
   Button,
+  Linking
 } from 'react-native'
 
 import CheckBox from 'react-native-checkbox';
 
 import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
+import ModalDropdown from 'react-native-modal-dropdown';
+
 
 export default class Input extends Component {
   constructor(props) {
@@ -22,55 +25,49 @@ export default class Input extends Component {
     const { isSubmitting, region, selectedItem, onChange, onSubmit } = this.props;
     return (
         <View>
-          <View style={{height: 20}}></View>
-          <View style={{ width: 300, height: 20 }}>
-            <MenuContext>
-              <Menu onSelect={(value) => this.updateField('lost', value)}>
-                <MenuTrigger disabled={isSubmitting}>
-                    <Text style={{fontWeight : 'bold'}}>{this.props.selectedItem.lost === undefined ? '-- Choose --' : (this.props.selectedItem.lost ? 'Lost' : 'Found') + ' Item'}</Text>
-                </MenuTrigger>
-                <MenuOptions>
-                  <MenuOption value={false}>
-                    <Text>This item was found</Text>
-                  </MenuOption>
-                  <MenuOption value={true}>
-                    <Text>This item was lost</Text>
-                  </MenuOption>
-                </MenuOptions>
-              </Menu>
-            </MenuContext>
+          <View style={{height: 8}}></View>
+          <View style={{ width: 300, height: 30}}>
+            <ModalDropdown
+              ref={el => this._dropdown = el}
+              disabled={isSubmitting}
+              textStyle={{fontSize: 20}} 
+              options={['This item was lost', 'This item was found']}
+              onSelect={(index, value) => this.updateField('lost', index == 0)}/>
           </View>
-          <View style={{height: 20}}></View>
+         
+          <View style={{height: 1}}></View>
           <TextInput
-              style={{height: 40, width: 200, padding: 10}}
-              maxLength={20}
+              style={{height: 40, width: 300, padding: 10}}
               blurOnSubmit={true}
-              editable={!isSubmitting}
+              editable={!isSubmitting && selectedItem.lost !== undefined}
               placeholder="What is it?" value={selectedItem.title}
               onChangeText={(title) => this.updateField('title', title)}
             />
           <TextInput
               style={{height: 40, width: 300, padding: 10}}
-              maxLength={200}
               blurOnSubmit={true}
-              editable={!isSubmitting}
+              editable={!isSubmitting && selectedItem.lost !== undefined}
               placeholder="Can you describe the item?" value={selectedItem.description}
               onChangeText={(description) => this.updateField('description', description)}
             />
           <TextInput
               style={{height: 40, width: 300, padding: 10}}
-              maxLength={100}
               blurOnSubmit={true}
-              editable={!isSubmitting}
+              editable={!isSubmitting && selectedItem.lost !== undefined}
               placeholder={selectedItem.lost ? 
                   "How can the finders contact you?" : "How can the owner contact you?" } 
               value={selectedItem.contact}
               onChangeText={(contact) => this.updateField('contact', contact)}
             />
-
-         <View style={{backgroundColor:'red'}}>
+        <Text style={{color: 'blue', textAlign:'center', textDecorationLine: 'underline'}}
+            onPress={() => Linking.openURL('http://findib.com/terms')}>
+        By pressing submit, you agree to these Terms and conditions.
+        </Text>
+        <View style={{height: 3}}></View>
+        <View style={{backgroundColor:'red', borderColor: 'black', 
+                    borderStyle: 'solid', borderWidth: 3}}>
           <Button
-              onPress={() => onSubmit(selectedItem, region)}
+              onPress={() => onSubmit(selectedItem, region, this._dropdown)}
               title="Submit"
               color="white"
               accessibilityLabel="Submit item"

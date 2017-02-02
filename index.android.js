@@ -11,10 +11,10 @@ import {
 
 import App from './app/App';
 
-export default class AwesomeProject extends Component {
+export default class Findib extends Component {
   render() {
     return <App />;
   }
 }
 
-AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
+AppRegistry.registerComponent('Findib', () => Findib);

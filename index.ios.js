@@ -10,10 +10,10 @@ import {
 } from 'react-native';
 
 import App from './app/App';
-class AwesomeProject extends Component {
+class Findib extends Component {
   render() {
     return <App />;
   }
 }
 
-AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
+AppRegistry.registerComponent('Findib', () => Findib);
