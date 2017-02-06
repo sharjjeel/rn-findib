@@ -20,7 +20,7 @@ export default class GetItemsButton extends Component {
             onPress={() => onClick(region)}
             title="Refresh Map"
             color="white"
-            accessibilityLabel="Submit item"
+            accessibilityLabel="Get Items in this region"
             disabled={isRefreshing}
           />
       </View>

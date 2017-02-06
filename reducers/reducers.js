@@ -6,7 +6,8 @@ const initialState = {
   selectedItem: {},
   itemsInRegion: [],
   isSubmitting: false,
-  isRefreshing: false
+  isRefreshing: false,
+  locationPermission: 'undetermined'
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -17,7 +18,8 @@ export default function reducer(state = initialState, action = {}) {
         selectedItem: state.selectedItem,
         itemsInRegion: state.itemsInRegion,
         isRefreshing: state.isRefreshing,
-        isSubmitting: state.isSubmitting
+        isSubmitting: state.isSubmitting,
+        locationPermission: state.locationPermission
       };
     case types.REFRESH_MAP:
       return {
@@ -25,7 +27,8 @@ export default function reducer(state = initialState, action = {}) {
         selectedItem: state.selectedItem,
         itemsInRegion: state.itemsInRegion,
         isRefreshing: true,
-        isSubmitting: state.isSubmitting
+        isSubmitting: state.isSubmitting,
+        locationPermission: state.locationPermission
       };
     case types.REFRESHED_MAP:
       return {
@@ -33,7 +36,8 @@ export default function reducer(state = initialState, action = {}) {
         selectedItem: state.selectedItem,
         itemsInRegion: [...action.items],
         isRefreshing: false,
-        isSubmitting: state.isSubmitting
+        isSubmitting: state.isSubmitting,
+        locationPermission: state.locationPermission
       };
     case types.FORM_CHANGE:
       let selectedItem = state.selectedItem;
@@ -43,7 +47,8 @@ export default function reducer(state = initialState, action = {}) {
         selectedItem: selectedItem,
         itemsInRegion: state.itemsInRegion,
         isRefreshing: state.isRefreshing,
-        isSubmitting: state.isSubmitting
+        isSubmitting: state.isSubmitting,
+        locationPermission: state.locationPermission
       };
     case types.SUBMIT:
       return {
@@ -51,7 +56,8 @@ export default function reducer(state = initialState, action = {}) {
         selectedItem: state.selectedItem,
         itemsInRegion: state.itemsInRegion,
         isRefreshing: state.isRefreshing,
-        isSubmitting: true
+        isSubmitting: true,
+        locationPermission: state.locationPermission
       };
     case types.SUBMITTED:
       return {
@@ -59,7 +65,17 @@ export default function reducer(state = initialState, action = {}) {
         selectedItem: {},
         itemsInRegion: [...state.itemsInRegion, action.item],
         isRefreshing: state.isRefreshing,
-        isSubmitting: false
+        isSubmitting: false,
+        locationPermission: state.locationPermission
+      };
+    case types.LOCATION_PERMISSIONS:
+      return {
+        region: state.region,
+        selectedItem: state.selectedItem,
+        itemsInRegion: state.itemsInRegion,
+        isRefreshing: state.isRefreshing,
+        isSubmitting: state.isSubmitting,
+        locationPermission: action.access
       };
     default:
       return state;

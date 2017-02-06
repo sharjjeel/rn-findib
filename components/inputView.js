@@ -19,7 +19,8 @@ export default class InputView extends Component {
     super(props);
   }
   render() {
-    const { region, selectedItem, actions, state, isSubmitting, isRefreshing, itemsInRegion} = this.props.passedProps;
+    const { region, selectedItem, actions, state, isSubmitting, isRefreshing, itemsInRegion, locationPermission} = this.props.passedProps;
+    console.log(state);
     const toCardMode = this.props.toCardMode;
     const styles = this.props.style;
     return (
@@ -41,7 +42,13 @@ export default class InputView extends Component {
         <View style={styles.map}>
           <Map itemsInRegion={itemsInRegion} selectedItem={selectedItem}
             region={region} onRegionChange={actions.regionChange}
-            fetchItems={actions.fetchItems}/>
+            fetchItems={actions.fetchItems} locationPermission={locationPermission}
+            locationPermissionsChange={actions.locationPermissionsChange}/>
+          {locationPermission == 'denied' ? <View style={styles.buttonContainer}>
+            <View style={styles.bubble}>
+              <Text style={{textAlign: 'center'}}>Please consider turning on location services for a pin closer to your location</Text>
+            </View>
+          </View> : null}
         </View>
 
         <View style={{height: 10}}></View>

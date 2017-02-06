@@ -19,6 +19,7 @@ import * as formActions from '../actions/formActions';
 import * as regionActions from '../actions/regionActions';
 import * as submitActions from '../actions/submitActions';
 import * as refreshActions from '../actions/refreshActions';
+import * as locationPermissionActions from '../actions/locationPermissionActions';
 
 import _ from 'lodash';
 
@@ -57,10 +58,11 @@ export default connect(state => ({
     selectedItem: state.reducer.selectedItem,
     itemsInRegion: state.reducer.itemsInRegion,
     isSubmitting: state.reducer.isSubmitting,
-    isRefreshing: state.reducer.isRefreshing
+    isRefreshing: state.reducer.isRefreshing,
+    locationPermission: state.reducer.locationPermission
     }),
   (dispatch) => ({
-    actions: bindActionCreators(_.merge(regionActions, formActions, submitActions, refreshActions) , dispatch)
+    actions: bindActionCreators(_.merge(regionActions, formActions, submitActions, refreshActions, locationPermissionActions) , dispatch)
   })
 )(Findib);
 
@@ -90,4 +92,16 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    marginVertical: 20,
+    backgroundColor: 'transparent',
+  }, 
+  bubble: {
+    flex: 1,
+    backgroundColor: 'rgba(255,255,255,0.7)',
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 20,
+  }
 });
